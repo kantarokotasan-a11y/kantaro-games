@@ -223,8 +223,8 @@ async function doAuth(){
     if(!r.ok){err.textContent='登録に失敗しました';document.getElementById('auth-btn').textContent='登録する';return;}
     currentUser={id:r.data[0].id,nickname:nick};
   } else {
-    const r=await sbFetch('/rest/v1/users?nickname=eq.'+encodeURIComponent(nick)+'&password=eq.'+encodeURIComponent(pass)+'&select=id,nickname','GET');
-    if(!r.data||r.data.length===0){err.textContent='ニックネームかパスワードが違います';document.getElementById('auth-btn').textContent='ログイン';return;}
+    const r=await sbFetch('/rest/v1/users?nickname=eq.'+encodeURIComponent(nick)+'&select=id,nickname,password','GET');
+    if(!r.data||r.data.length===0||r.data[0].password!==pass){err.textContent='ニックネームかパスワードが違います';document.getElementById('auth-btn').textContent='ログイン';return;}
     currentUser={id:r.data[0].id,nickname:r.data[0].nickname};
   }
   localStorage.setItem('kantaro_user',JSON.stringify(currentUser));
@@ -438,4 +438,4 @@ async function loadRanking(period){
     const numClass=idx===0?'gold':idx===1?'silver':idx===2?'bronze':'';
     const date=new Date(item.created_at);
     const dateStr=(date.getMonth()+1)+'/'+(date.getDate())+' '+(date.getHours()+':'+String(date.getMinutes()).padStart(2,'0'));
-    div.innerHTML=`<div class="rank-num ${numClass}">${numStr}</div><div class="rank-name${isMe?' me':''}">${item.nickname}${isMe?' 👈':''}</div><div>
+    div.innerHTML=`<div class="rank-num ${numClass}">${numStr}</div><div class="rank-name${isMe?' me':''}">${item.nickname}${isMe?' 👈':''}</div><div><div 
