@@ -116,21 +116,21 @@ html,body{width:100%;height:100%;background:#1a1a2e;font-family:'Hiragino Sans',
     </div>
     <div class="card" id="auth-card">
       <div class="tab-row" style="margin-bottom:12px">
-        <button class="tab active" id="tab-login" onclick="switchTab('login')">ログイン</button>
-        <button class="tab" id="tab-register" onclick="switchTab('register')">新規登録</button>
+        <button class="tab active" id="tab-login" >ログイン</button>
+        <button class="tab" id="tab-register" >新規登録</button>
       </div>
       <input class="inp" id="inp-nick" placeholder="ニックネーム" maxlength="12">
       <input class="inp" id="inp-pass" type="password" placeholder="パスワード">
       <div class="err" id="auth-err"></div>
-      <button class="btn btn-primary" id="auth-btn" onclick="doAuth()">ログイン</button>
+      <button class="btn btn-primary" id="auth-btn" >ログイン</button>
     </div>
     <div id="logged-bar" style="display:none;width:100%;flex-direction:column;gap:8px">
       <div class="user-bar">
         <span id="logged-name"></span>
-        <button class="logout-btn" onclick="doLogout()">ログアウト</button>
+        <button class="logout-btn" >ログアウト</button>
       </div>
-      <button class="btn btn-primary" onclick="goGame()">ゲームスタート</button>
-      <button class="btn btn-secondary" onclick="goRanking()">ランキングを見る</button>
+      <button class="btn btn-primary" id="game-start-btn">ゲームスタート</button>
+      <button class="btn btn-secondary" id="ranking-btn">ランキングを見る</button>
     </div>
   </div>
 
@@ -153,8 +153,8 @@ html,body{width:100%;height:100%;background:#1a1a2e;font-family:'Hiragino Sans',
       <div class="result-score" id="res-score">0</div>
       <div class="result-label">点</div>
       <div class="result-best" id="res-best"></div>
-      <button class="btn btn-primary" onclick="goRanking()" style="margin-bottom:8px">ランキングを見る</button>
-      <button class="btn btn-secondary" onclick="goGame()">もう一度プレイ</button>
+      <button class="btn btn-primary"  style="margin-bottom:8px">ランキングを見る</button>
+      <button class="btn btn-secondary" id="res-retry-btn">もう一度プレイ</button>
     </div>
   </div>
 
@@ -164,13 +164,13 @@ html,body{width:100%;height:100%;background:#1a1a2e;font-family:'Hiragino Sans',
       <div class="ranking-title">🏆 ランキング</div>
     </div>
     <div class="period-tabs">
-      <button class="period-tab active" onclick="loadRanking('today')">今日</button>
-      <button class="period-tab" onclick="loadRanking('week')">週間</button>
-      <button class="period-tab" onclick="loadRanking('all')">全期間</button>
+      <button class="period-tab active" >今日</button>
+      <button class="period-tab" >週間</button>
+      <button class="period-tab" >全期間</button>
     </div>
     <div class="my-rank-bar" id="my-rank-bar" style="display:none"></div>
     <div class="ranking-list" id="ranking-list"><div class="loading">読み込み中...</div></div>
-    <button class="btn btn-secondary" onclick="goTop()" style="margin-top:10px;width:100%">トップに戻る</button>
+    <button class="btn btn-secondary"  style="margin-top:10px;width:100%">トップに戻る</button>
   </div>
 </div>
 <script>
@@ -438,4 +438,31 @@ async function loadRanking(period){
     const numClass=idx===0?'gold':idx===1?'silver':idx===2?'bronze':'';
     const date=new Date(item.created_at);
     const dateStr=(date.getMonth()+1)+'/'+(date.getDate())+' '+(date.getHours()+':'+String(date.getMinutes()).padStart(2,'0'));
-    div.innerHTML=`<div class="rank-num ${numClass}">${numStr}</div><div class="rank-name${isMe?' me':''}">${item.nickname}${isMe?' 👈':''}</div><div><div 
+    div.innerHTML=`<div class="rank-num ${numClass}">${numStr}</div><div class="rank-name${isMe?' me':''}">${item.nickname}${isMe?' 👈':''}</div><div><div class="rank-score">${item.score}</div><div class="rank-date">${dateStr}</div></div>`;
+    list.appendChild(div);
+  });
+  if(currentUser&&myRank>0){
+    const bar=document.getElementById('my-rank-bar');
+    bar.textContent='あなたの順位：第'+myRank+'位（'+score+'点）';
+    bar.style.display='';
+  }
+}
+
+document.getElementById('tab-login').addEventListener('click',()=>switchTab('login'));
+document.getElementById('tab-register').addEventListener('click',()=>switchTab('register'));
+document.getElementById('auth-btn').addEventListener('click',doAuth);
+document.getElementById('logout-btn').addEventListener('click',doLogout);
+document.getElementById('game-start-btn').addEventListener('click',goGame);
+document.getElementById('ranking-btn').addEventListener('click',goRanking);
+document.getElementById('res-ranking-btn').addEventListener('click',goRanking);
+document.getElementById('res-retry-btn').addEventListener('click',goGame);
+document.getElementById('back-top-btn').addEventListener('click',goTop);
+document.querySelectorAll('.period-tab').forEach((t,i)=>{
+  const periods=['today','week','all'];
+  t.addEventListener('click',()=>loadRanking(periods[i]));
+});
+init();
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js");}</script>
+</body>
+</html>
