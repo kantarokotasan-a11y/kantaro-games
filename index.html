@@ -253,10 +253,11 @@ function init(){
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
+  window.scrollTo(0,0);
 }
 function goTop(){stopBGM();showScreen('top-screen');}
-function goGame(){showScreen('game-screen');startGame();}
-function goRanking(){showScreen('ranking-screen');loadRanking('today');}
+function goGame(){showScreen('game-screen');setTimeout(()=>startGame(),80);}
+function goRanking(){showScreen('ranking-screen');setTimeout(()=>loadRanking('today'),80);}
 
 // ===== BGM =====
 let bgm=null,muted=false;
