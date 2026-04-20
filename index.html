@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>缶太郎モグラたたき</title>
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="缶太郎">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#e86c2f">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;touch-action:manipulation}
 html,body{width:100%;height:100%;background:#1a1a2e;font-family:'Hiragino Sans','Meiryo',sans-serif;overflow:hidden}
@@ -432,17 +438,4 @@ async function loadRanking(period){
     const numClass=idx===0?'gold':idx===1?'silver':idx===2?'bronze':'';
     const date=new Date(item.created_at);
     const dateStr=(date.getMonth()+1)+'/'+(date.getDate())+' '+(date.getHours()+':'+String(date.getMinutes()).padStart(2,'0'));
-    div.innerHTML=`<div class="rank-num ${numClass}">${numStr}</div><div class="rank-name${isMe?' me':''}">${item.nickname}${isMe?' 👈':''}</div><div><div class="rank-score">${item.score}</div><div class="rank-date">${dateStr}</div></div>`;
-    list.appendChild(div);
-  });
-  if(currentUser&&myRank>0){
-    const bar=document.getElementById('my-rank-bar');
-    bar.textContent='あなたの順位：第'+myRank+'位（'+score+'点）';
-    bar.style.display='';
-  }
-}
-
-init();
-</script>
-</body>
-</html>
+    div.innerHTML=`<div class="rank-num ${numClass}">${numStr}</div><div class="rank-name${isMe?' me':''}">${item.nickname}${isMe?' 👈':''}</div><div>
