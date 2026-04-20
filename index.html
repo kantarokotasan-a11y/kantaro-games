@@ -103,10 +103,10 @@ html,body{width:100%;height:100%;background:#1a1a2e;font-family:'Hiragino Sans',
     </div>
     <div class="desc-box">
       🐱 <b>缶太郎</b>が穴から出たらタップ！<br>
-      💣 <b>爆弾</b>はタップするとミス（2分〜）<br>
-      ❤️ <b>ハート</b>をタップするとHP回復（4分〜）<br>
+      💣 <b>爆弾</b>はタップするとミス<br>
+      ❤️ <b>ハート</b>をタップするとHP回復<br>
       ❌ <b>5回ミス</b>でゲームオーバー<br>
-      ⏱️ <b>1分ごと</b>に難易度アップ！
+      ⏱️ <b>30秒ごと</b>に難易度アップ！
     </div>
     <div class="card" id="auth-card">
       <div class="tab-row" style="margin-bottom:12px">
@@ -267,11 +267,11 @@ document.getElementById('mute-btn').addEventListener('click',()=>{
 const MAX_MISS=5;
 const PHASES=[
   {name:'WARM UP',minMs:0,maxMs:60000,spawnMin:850,spawnMax:850,stayMin:1400,stayMax:1400,bomb:false,heart:false},
-  {name:'SPEED UP',minMs:60000,maxMs:120000,spawnMin:600,spawnMax:700,stayMin:1100,stayMax:1200,bomb:false,heart:false},
-  {name:'DANGER!',minMs:120000,maxMs:180000,spawnMin:500,spawnMax:620,stayMin:950,stayMax:1100,bomb:true,bombRate:0.18,heart:false},
-  {name:'FAST!',minMs:180000,maxMs:240000,spawnMin:380,spawnMax:500,stayMin:800,stayMax:950,bomb:true,bombRate:0.22,heart:false},
-  {name:'BONUS❤️',minMs:240000,maxMs:300000,spawnMin:350,spawnMax:450,stayMin:700,stayMax:850,bomb:true,bombRate:0.2,heart:true,heartRate:0.12},
-  {name:'EXTREME',minMs:300000,maxMs:Infinity,spawnMin:250,spawnMax:380,stayMin:580,stayMax:720,bomb:true,bombRate:0.22,heart:true,heartRate:0.1}
+  {name:'SPEED UP',minMs:30000,maxMs:60000,spawnMin:600,spawnMax:700,stayMin:1100,stayMax:1200,bomb:false,heart:false},
+  {name:'DANGER!',minMs:60000,maxMs:90000,spawnMin:500,spawnMax:620,stayMin:950,stayMax:1100,bomb:true,bombRate:0.18,heart:false},
+  {name:'FAST!',minMs:90000,maxMs:120000,spawnMin:380,spawnMax:500,stayMin:800,stayMax:950,bomb:true,bombRate:0.22,heart:false},
+  {name:'BONUS❤️',minMs:120000,maxMs:150000,spawnMin:350,spawnMax:450,stayMin:700,stayMax:850,bomb:true,bombRate:0.2,heart:true,heartRate:0.12},
+  {name:'EXTREME',minMs:150000,maxMs:Infinity,spawnMin:250,spawnMax:380,stayMin:580,stayMax:720,bomb:true,bombRate:0.22,heart:true,heartRate:0.1}
 ];
 
 let score=0,miss=0,running=false,holes=[],sid=null,clockId=null,startTime=0,elapsed=0;
